@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let button of buttons) {
         button.addEventListener("click", function() {
             if (this.getAttribute("data-type") === "submit") {
-                alert("You clicked Submit!");
+                checkAnswer();
             } else {
                 let gameType = this.getAttribute("data-type");
                 runGame(gameType);
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /**
  * The main game "loop" called when the script is first loaded
- * and aafter the users answer has been processed
+ * and a fter the users answer has been processed
  * I'm also using the doc string in order to describe
  * functions
  */
@@ -38,9 +38,23 @@ function runGame(gameType) {
         throw `Unknown game Type: ${gameType}. Aborting!`;
     }
 }
-
+/**
+ * checks the answer against the first element in
+ * the returned calculateCorrectAnswer array
+ */
 function checkAnswer() {
 
+    let userAnswer = parseInt(document.getElementById('answer-box').value);
+    let calculatedAnswer = calculateCorrectAnswer();
+    let isCorrect = userAnswer === calculatedAnswer[0];
+    //short way to ask if, is correct
+    if (isCorrect) {
+        alert('Hey! You got it right :)');
+    } else {
+        alert(`Awww.. you answered ${userAnswer}. This is the correct answer ${calculatedAnswer[0]}!`)
+    }
+
+    runGame(calculatedAnswer[1]);
 }
 /**
  * Gets operands (the numbers) and the operator (plus, minus etc.)
@@ -50,7 +64,7 @@ function calculateCorrectAnswer() {
     // gets the inner text elemnts, parseInt makes sure the number is integer
     let operand1 = parseInt(document.getElementById('operand1').innerText);
     let operand2 = parseInt(document.getElementById('operand2').innerText);
-    let opertor = document.getElementById('operator').innerText;
+    let operator = document.getElementById('operator').innerText;
 
     if (operator === "+") {
         return [operand1 + operand2, "addition"];
