@@ -1,3 +1,7 @@
+//Every new game type needs to be put through gameType()
+//They need a display function
+//They need modifed calculateCorrectAnswer
+
 //Wait for DOM to finish loading before running the game 
 //Get buttton events and add eveent listeners to them 
 
@@ -33,6 +37,9 @@ function runGame(gameType) {
 
     if(gameType === "addition"){
         displayAdditionQuestion(num1, num2);
+    } else if (gameType === "multiply") {
+        displayMultiplyQuestion(num1, num2);
+
     } else {
         alert(`Unknown game Type: ${gameType}`);
         throw `Unknown game Type: ${gameType}. Aborting!`;
@@ -70,6 +77,8 @@ function calculateCorrectAnswer() {
 
     if (operator === "+") {
         return [operand1 + operand2, "addition"];
+    } else if (operator === "x"){
+        return [operand1 * operand2, "multiply"];
     } else {
         alert(`Unimplemented operator ${opertor}`);
         throw `Unimplemented operator ${opertor}. Aborting!`;
@@ -105,8 +114,10 @@ function displaySubtractQuestion() {
 
 }
 
-function displayMultiplyQuestion() {
-
+function displayMultiplyQuestion(operand1, operand2) {
+    document.getElementById('operand1').textContent = operand1;
+    document.getElementById('operand2').textContent = operand2;
+    document.getElementById('operator').textContent = "x";
 }
 
 // function displayDivideQuestion() {
