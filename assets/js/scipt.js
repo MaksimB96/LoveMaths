@@ -18,19 +18,28 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+    //Use key method in order to allow enter key functionality
+    document.getElementById("answer-box").addEventListener("keydown", function(event){
+        if (event.key === "Enter"){
+            checkAnswer();
+        }
+    })
 
     runGame("addition");
 });
 
 /**
  * The main game "loop" called when the script is first loaded
- * and a fter the users answer has been processed
+ * and after the users answer has been processed
  * I'm also using the doc string in order to describe
  * functions
  */
 
 function runGame(gameType) {
-
+    //assign empty value to reset every time game function called
+    document.getElementById('answer-box').value = "";
+    //focus function sets cursor to answer box as soon as we load in s
+    document.getElementById('answer-box').focus();
     //create two random numbers between 1-25
     let num1 = Math.floor(Math.random() * 25)+1;
     let num2 = Math.floor(Math.random() * 25)+1;
@@ -39,7 +48,8 @@ function runGame(gameType) {
         displayAdditionQuestion(num1, num2);
     } else if (gameType === "multiply") {
         displayMultiplyQuestion(num1, num2);
-
+    } else if (gameType === "subtract") {
+        displaySubtractQuestion(num1, num2);
     } else {
         alert(`Unknown game Type: ${gameType}`);
         throw `Unknown game Type: ${gameType}. Aborting!`;
@@ -79,6 +89,8 @@ function calculateCorrectAnswer() {
         return [operand1 + operand2, "addition"];
     } else if (operator === "x"){
         return [operand1 * operand2, "multiply"];
+    } else if (operator === "-") {
+        return [operand1 - operand2, "subtract"];
     } else {
         alert(`Unimplemented operator ${opertor}`);
         throw `Unimplemented operator ${opertor}. Aborting!`;
@@ -110,8 +122,14 @@ function displayAdditionQuestion(operand1, operand2) {
 
 }
 
-function displaySubtractQuestion() {
+//Subtract left till last as a little more thought goes through it
 
+function displaySubtractQuestion(operand1, operand2) {
+    //Which is bigger, if operand1 bigger return, else if operand2 bigger return that instead "?" acts like if/else
+
+    document.getElementById('operand1').textContent = operand1 > operand2 ? operand1 : operand2;
+    document.getElementById('operand2').textContent = operand1 > operand2 ? operand2 : operand1;
+    document.getElementById('operator').textContent = "-";
 }
 
 function displayMultiplyQuestion(operand1, operand2) {
